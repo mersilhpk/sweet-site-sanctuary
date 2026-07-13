@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef } from "react";
+import logoAsset from "@/assets/cakeweb-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -22,11 +23,30 @@ function HomePage() {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!ref.current) return;
+    // Swap logo placeholders with the real image
+    ref.current.querySelectorAll<HTMLElement>("[data-logo-slot]").forEach((el) => {
+      el.innerHTML = `<img src="${logoAsset.url}" alt="CakeWeb — Marketing & Comercial Business" />`;
+    });
     // Execute the site's inline scripts after mount
     const s = document.createElement("script");
     s.textContent = SITE_SCRIPT;
     document.body.appendChild(s);
-    return () => { s.remove(); };
+    // Gentle scroll reveal
+    const items = ref.current.querySelectorAll<HTMLElement>(".scroll-reveal");
+    items.forEach((el) => el.classList.remove("is-visible"));
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("is-visible");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+    );
+    items.forEach((el) => io.observe(el));
+    return () => { s.remove(); io.disconnect(); };
   }, []);
   return (
     <>
