@@ -131,6 +131,12 @@ function HomePage() {
         @media (prefers-reduced-motion: reduce){
           .scroll-reveal { opacity:1 !important; transform:none !important; transition:none !important; }
         }
+        .skip-link{position:fixed;top:-40px;left:12px;z-index:9999;background:#7c3aed;color:#fff;padding:10px 16px;border-radius:8px;font-weight:600;transition:top .2s ease;}
+        .skip-link:focus{top:12px;outline:2px solid #fff;outline-offset:2px;}
+        a:focus-visible,button:focus-visible,[role="button"]:focus-visible,input:focus-visible,label.diag-option:focus-within{outline:2px solid #c084fc;outline-offset:3px;border-radius:6px;}
+        .nav-links a{color:#cdb9e8!important;}
+        .hero-sub{color:#cdb9e8!important;}
+        .sh p,.card p,.plan-card li,.guar-item p{color:#c9b9e0!important;}
       `}</style>
       <a href="#conteudo" className="skip-link">Pular para o conteúdo</a>
       <main id="conteudo" ref={ref} dangerouslySetInnerHTML={{ __html: SITE_HTML }} />
