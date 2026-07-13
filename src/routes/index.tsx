@@ -23,16 +23,25 @@ function HomePage() {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!ref.current) return;
-    // Swap logo placeholders with the real image
-    ref.current.querySelectorAll<HTMLElement>("[data-logo-slot]").forEach((el) => {
-      el.innerHTML = `<img src="${logoAsset.url}" alt="CakeWeb — Marketing & Comercial Business" />`;
-    });
+    const root = ref.current;
+    // Replace header logo (text) with the real image
+    const headerLogo = root.querySelector<HTMLAnchorElement>("header a.logo");
+    if (headerLogo) {
+      headerLogo.classList.add("logo-img");
+      headerLogo.innerHTML = `<img src="${logoAsset.url}" alt="CakeWeb — Marketing & Comercial Business" />`;
+    }
+    // Replace footer logo
+    const footerLogo = root.querySelector<HTMLElement>("footer .footer-left .logo");
+    if (footerLogo) {
+      footerLogo.classList.add("logo-img", "logo-img--footer");
+      footerLogo.innerHTML = `<img src="${logoAsset.url}" alt="CakeWeb" />`;
+    }
     // Execute the site's inline scripts after mount
     const s = document.createElement("script");
     s.textContent = SITE_SCRIPT;
     document.body.appendChild(s);
     // Gentle scroll reveal
-    const items = ref.current.querySelectorAll<HTMLElement>(".scroll-reveal");
+    const items = root.querySelectorAll<HTMLElement>(".scroll-reveal");
     items.forEach((el) => el.classList.remove("is-visible"));
     const io = new IntersectionObserver(
       (entries) => {
@@ -43,14 +52,48 @@ function HomePage() {
           }
         });
       },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+      { threshold: 0.14, rootMargin: "0px 0px -6% 0px" }
     );
     items.forEach((el) => io.observe(el));
+    // Auto-tag major sections as scroll-reveal for full-page effect
+    root.querySelectorAll<HTMLElement>("section > .si, section > .hero-inner, section > .diag-shell, section > .combo-wrap, section > .v2-wrap, section > .crm-console")
+      .forEach((el, i) => {
+        if (!el.classList.contains("scroll-reveal")) {
+          el.classList.add("scroll-reveal");
+          el.setAttribute("data-reveal-delay", String((i % 4)));
+          io.observe(el);
+        }
+      });
     return () => { s.remove(); io.disconnect(); };
   }, []);
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: SITE_STYLES }} />
+      <style>{`
+        header a.logo.logo-img { display:inline-flex; align-items:center; height:52px; padding:0; }
+        header a.logo.logo-img img { display:block; height:44px; width:auto; }
+        footer .logo.logo-img.logo-img--footer img { display:block; height:38px; width:auto; }
+        header a.logo.logo-img .dot, footer .logo.logo-img--footer .dot { display:none; }
+        body, .hero-sub, .card p, .plan-card li, .sh p, .guar-item p,
+        .contact-info p, h1, h2, h3, h4, .logo, .btn-primary, .nav-cta {
+          font-family: 'Roboto','Google Sans',Arial,sans-serif !important;
+        }
+        .scroll-reveal { opacity:0; transform:translateY(28px);
+          transition: opacity 1.05s cubic-bezier(.22,.61,.36,1), transform 1.05s cubic-bezier(.22,.61,.36,1);
+          will-change: opacity, transform; }
+        .scroll-reveal.is-visible { opacity:1; transform:none; }
+        .scroll-reveal[data-reveal-delay="1"] { transition-delay: .12s; }
+        .scroll-reveal[data-reveal-delay="2"] { transition-delay: .22s; }
+        .scroll-reveal[data-reveal-delay="3"] { transition-delay: .32s; }
+        .scroll-reveal[data-reveal-delay="4"] { transition-delay: .42s; }
+        @media (max-width:900px){
+          header a.logo.logo-img { height:44px; }
+          header a.logo.logo-img img { height:36px; }
+        }
+        @media (prefers-reduced-motion: reduce){
+          .scroll-reveal { opacity:1 !important; transform:none !important; transition:none !important; }
+        }
+      `}</style>
       <div ref={ref} dangerouslySetInnerHTML={{ __html: SITE_HTML }} />
     </>
   );
