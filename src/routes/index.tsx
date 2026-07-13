@@ -7,10 +7,48 @@ export const Route = createFileRoute("/")({
     meta: [
       { title: "CakeWeb — Tecnologia de Vendas para Grandes Operações" },
       { name: "description", content: "A CakeWeb projeta e opera o motor comercial de empresas de médio e grande porte — CRM, IA aplicada a SDR e capacitação de equipe em um único sistema de receita." },
+      { name: "keywords", content: "CRM, IA para SDR, performance comercial, automação de vendas, treinamento comercial, geração de leads, agência de vendas, tecnologia comercial, CakeWeb" },
+      { name: "robots", content: "index,follow,max-image-preview:large,max-snippet:-1" },
       { property: "og:title", content: "CakeWeb — Tecnologia de Vendas para Grandes Operações" },
       { property: "og:description", content: "CRM, IA SDR e performance comercial para grandes operações." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://sweet-site-sanctuary.lovable.app/" },
+      { property: "og:locale", content: "pt_BR" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "CakeWeb — Tecnologia de Vendas para Grandes Operações" },
+      { name: "twitter:description", content: "CRM, IA SDR e performance comercial para grandes operações." },
+    ],
+    links: [
+      { rel: "canonical", href: "https://sweet-site-sanctuary.lovable.app/" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "CakeWeb",
+          url: "https://sweet-site-sanctuary.lovable.app/",
+          description: "Tecnologia de vendas para grandes operações: CRM, IA aplicada a SDR e capacitação comercial.",
+          areaServed: "BR",
+          contactPoint: [{
+            "@type": "ContactPoint",
+            telephone: "+55-19-99898-6501",
+            contactType: "sales",
+            availableLanguage: ["Portuguese"],
+          }],
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "CakeWeb",
+          url: "https://sweet-site-sanctuary.lovable.app/",
+          inLanguage: "pt-BR",
+        }),
+      },
     ],
   }),
   component: HomePage,
