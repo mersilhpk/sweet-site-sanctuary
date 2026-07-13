@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sweet-site-sanctuary.lovable.app/sitemap.xml
