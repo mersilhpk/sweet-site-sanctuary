@@ -83,6 +83,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "pt_BR" },
       { name: "twitter:card", content: "summary_large_image" },
+      { title: "CakeWeb — Tecnologia de Vendas para Grandes Operações" },
+      { property: "og:title", content: "CakeWeb — Tecnologia de Vendas para Grandes Operações" },
+      { name: "twitter:title", content: "CakeWeb — Tecnologia de Vendas para Grandes Operações" },
+      { name: "description", content: "A CakeWeb projeta e opera o motor comercial de empresas de médio e grande porte — CRM, IA aplicada a SDR e capacitação de equipe em um único sistema de receita." },
+      { property: "og:description", content: "A CakeWeb projeta e opera o motor comercial de empresas de médio e grande porte — CRM, IA aplicada a SDR e capacitação de equipe em um único sistema de receita." },
+      { name: "twitter:description", content: "A CakeWeb projeta e opera o motor comercial de empresas de médio e grande porte — CRM, IA aplicada a SDR e capacitação de equipe em um único sistema de receita." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b5e20115-f7a5-4f42-be57-9bc6fec23554" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b5e20115-f7a5-4f42-be57-9bc6fec23554" },
     ],
     links: [
       {
