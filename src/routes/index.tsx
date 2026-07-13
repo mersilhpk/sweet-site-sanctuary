@@ -132,7 +132,8 @@ function HomePage() {
           .scroll-reveal { opacity:1 !important; transform:none !important; transition:none !important; }
         }
       `}</style>
-      <div ref={ref} dangerouslySetInnerHTML={{ __html: SITE_HTML }} />
+      <a href="#conteudo" className="skip-link">Pular para o conteúdo</a>
+      <main id="conteudo" ref={ref} dangerouslySetInnerHTML={{ __html: SITE_HTML }} />
     </>
   );
 }
