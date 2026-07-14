@@ -139,7 +139,6 @@ function HomePage() {
         .hero-sub{color:#5f6368!important;}
         .sh p,.card p,.plan-card li,.guar-item p{color:#c9b9e0!important;}
       `}</style>
-      <a href="#conteudo" className="skip-link">Pular para o conteúdo</a>
       <main id="conteudo" ref={ref} dangerouslySetInnerHTML={{ __html: SITE_HTML }} />
     </>
   );
