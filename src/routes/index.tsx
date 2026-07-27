@@ -64,6 +64,38 @@ function HomePage() {
   const ref = useRef<HTMLElement>(null);
   const { media, reload } = useSiteMedia();
   const [extraHost, setExtraHost] = useState<HTMLElement | null>(null);
+  const [domVersion, setDomVersion] = useState(0);
+
+  // React re-renders the injected markup once after hydration; track it so the
+  // DOM enhancements below are re-applied instead of being wiped out.
+  useEffect(() => {
+    const root = ref.current;
+    if (!root) return;
+    const mo = new MutationObserver((records) => {
+      if (records.some((r) => r.target === root && r.addedNodes.length > 0)) {
+        setDomVersion((v) => v + 1);
+      }
+    });
+    mo.observe(root, { childList: true });
+    return () => mo.disconnect();
+  }, []);
+
+  // Brand logos (header + footer)
+  useEffect(() => {
+    const root = ref.current;
+    if (!root) return;
+    const headerLogo = root.querySelector<HTMLAnchorElement>("header a.logo");
+    if (headerLogo && !headerLogo.querySelector("img")) {
+      headerLogo.classList.add("logo-img");
+      headerLogo.innerHTML = `<img src="${logoAsset.url}" alt="CakeWeb — Marketing & Comercial Business" />`;
+    }
+    const footerLogo = root.querySelector<HTMLElement>("footer .footer-left .logo");
+    if (footerLogo && !footerLogo.querySelector("img")) {
+      footerLogo.classList.add("logo-img", "logo-img--footer");
+      footerLogo.innerHTML = `<img src="${logoAsset.url}" alt="CakeWeb" />`;
+    }
+  }, [domVersion]);
+
   useEffect(() => {
     if (!ref.current) return;
     const root = ref.current;
@@ -135,7 +167,7 @@ function HomePage() {
     if (attach()) return;
     const t = window.setTimeout(attach, 300);
     return () => window.clearTimeout(t);
-  }, []);
+  }, [domVersion]);
 
   // Apply the hero phone media chosen in the admin panel
   useEffect(() => {
@@ -167,7 +199,7 @@ function HomePage() {
       img.alt = "Destaque CakeWeb";
       frame.appendChild(img);
     }
-  }, [media]);
+  }, [media, domVersion]);
 
   // Apply the notebook "Modelos de site" media
   useEffect(() => {
@@ -210,7 +242,7 @@ function HomePage() {
       next?.removeEventListener("click", onNext);
       overlay.remove();
     };
-  }, [media]);
+  }, [media, domVersion]);
 
   return (
     <>
