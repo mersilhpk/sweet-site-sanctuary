@@ -277,6 +277,7 @@ const ADMIN_STYLES = `
 .cw-dots{display:flex;gap:8px;justify-content:center;margin-top:16px}
 .cw-dots button{width:8px;height:8px;border-radius:50%;border:none;background:rgba(124,58,237,.25);cursor:pointer}
 .cw-dots button.is-active{background:#7c3aed;width:22px;border-radius:999px}
+.v2-screen{position:relative}
 .cw-model-overlay{position:absolute;inset:0;z-index:5;display:none;border-radius:inherit;overflow:hidden}
 .cw-model-overlay img,.cw-model-overlay video{width:100%;height:100%;object-fit:cover;display:block}
 .story-phone-frame .cw-hero-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit}
