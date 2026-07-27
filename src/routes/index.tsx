@@ -111,6 +111,100 @@ function HomePage() {
       });
     return () => { s.remove(); s2.remove(); s3.remove(); const mm=document.querySelector(".mobile-menu"); if(mm)mm.remove(); io.disconnect(); };
   }, []);
+
+  // Host for the extra React-rendered sections (clients + services)
+  useEffect(() => {
+    const root = ref.current;
+    if (!root) return;
+    const anchor =
+      root.querySelector("#v2-template")?.closest("section") ??
+      root.querySelector(".v2-wrap")?.closest("section");
+    if (!anchor) return;
+    const host = document.createElement("div");
+    host.id = "cw-extra-host";
+    anchor.insertAdjacentElement("afterend", host);
+    setExtraHost(host);
+    return () => {
+      host.remove();
+      setExtraHost(null);
+    };
+  }, []);
+
+  // Apply the hero phone media chosen in the admin panel
+  useEffect(() => {
+    const root = ref.current;
+    if (!root) return;
+    const frame = root.querySelector<HTMLElement>(".story-phone-frame");
+    if (!frame) return;
+    const video = frame.querySelector<HTMLVideoElement>("#heroStoryVideo");
+    const controls = frame.querySelector<HTMLElement>(".story-controls");
+    frame.querySelectorAll(".cw-hero-image").forEach((n) => n.remove());
+    const item = media["hero_video"];
+    if (!item) return;
+    if (item.mediaType === "video") {
+      if (video) {
+        video.style.display = "";
+        if (!video.src.endsWith(item.url)) {
+          video.src = item.url;
+          video.load();
+          void video.play().catch(() => {});
+        }
+      }
+      if (controls) controls.style.display = "";
+    } else {
+      if (video) video.style.display = "none";
+      if (controls) controls.style.display = "none";
+      const img = document.createElement("img");
+      img.className = "cw-hero-image";
+      img.src = item.url;
+      img.alt = "Destaque CakeWeb";
+      frame.appendChild(img);
+    }
+  }, [media]);
+
+  // Apply the notebook "Modelos de site" media
+  useEffect(() => {
+    const root = ref.current;
+    if (!root) return;
+    const screen = root.querySelector<HTMLElement>(".v2-screen");
+    if (!screen) return;
+    let idx = 0;
+    const overlay = document.createElement("div");
+    overlay.className = "cw-model-overlay";
+    screen.appendChild(overlay);
+    const render = () => {
+      const item = media[`modelo_${idx + 1}`];
+      if (!item) {
+        overlay.innerHTML = "";
+        overlay.style.display = "none";
+        return;
+      }
+      overlay.style.display = "block";
+      overlay.innerHTML =
+        item.mediaType === "video"
+          ? `<video src="${item.url}" autoplay muted loop playsinline></video>`
+          : `<img src="${item.url}" alt="Modelo de site CakeWeb" />`;
+    };
+    const prev = root.querySelector("#v2-site-prev");
+    const next = root.querySelector("#v2-site-next");
+    const onPrev = () => {
+      idx = (idx + 3) % 4;
+      render();
+    };
+    const onNext = () => {
+      idx = (idx + 1) % 4;
+      render();
+    };
+    prev?.addEventListener("click", onPrev);
+    next?.addEventListener("click", onNext);
+    render();
+    return () => {
+      prev?.removeEventListener("click", onPrev);
+      next?.removeEventListener("click", onNext);
+      overlay.remove();
+    };
+  }, [media]);
+
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: SITE_STYLES }} />
@@ -145,7 +239,10 @@ function HomePage() {
         .hero-sub{color:#5f6368!important;}
         .sh p,.card p,.plan-card li,.guar-item p{color:#c9b9e0!important;}
       `}</style>
+      <style dangerouslySetInnerHTML={{ __html: ADMIN_STYLES }} />
       <main id="conteudo" ref={ref} dangerouslySetInnerHTML={{ __html: SITE_HTML }} />
+      {extraHost && createPortal(<SiteExtraSections media={media} />, extraHost)}
+      <SiteAdmin onChanged={reload} />
     </>
   );
 }
