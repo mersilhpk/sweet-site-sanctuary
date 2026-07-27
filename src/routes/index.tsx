@@ -72,7 +72,14 @@ function HomePage() {
     const root = ref.current;
     if (!root) return;
     const mo = new MutationObserver((records) => {
-      if (records.some((r) => r.target === root && r.addedNodes.length > 0)) {
+      const rerendered = records.some(
+        (r) =>
+          r.target === root &&
+          Array.from(r.addedNodes).some(
+            (n) => !(n instanceof Element) || n.id !== "cw-extra-host",
+          ),
+      );
+      if (rerendered) {
         setDomVersion((v) => v + 1);
       }
     });
