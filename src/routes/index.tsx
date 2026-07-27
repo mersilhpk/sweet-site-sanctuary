@@ -116,19 +116,25 @@ function HomePage() {
   useEffect(() => {
     const root = ref.current;
     if (!root) return;
-    console.log("CWDBG host effect", !!root);
-    const anchor =
-      root.querySelector("#v2-template")?.closest("section") ??
-      root.querySelector(".v2-wrap")?.closest("section");
-    if (!anchor) return;
-    const host = document.createElement("div");
-    host.id = "cw-extra-host";
-    anchor.insertAdjacentElement("afterend", host);
-    setExtraHost(host);
-    return () => {
-      host.remove();
-      setExtraHost(null);
+    const attach = () => {
+      const anchor =
+        root.querySelector("#v2-template")?.closest("section") ??
+        root.querySelector(".v2-wrap")?.closest("section");
+      if (!anchor) return false;
+      let host = document.getElementById("cw-extra-host");
+      if (!host) {
+        host = document.createElement("div");
+        host.id = "cw-extra-host";
+      }
+      if (host.previousElementSibling !== anchor) {
+        anchor.insertAdjacentElement("afterend", host);
+      }
+      setExtraHost(host);
+      return true;
     };
+    if (attach()) return;
+    const t = window.setTimeout(attach, 300);
+    return () => window.clearTimeout(t);
   }, []);
 
   // Apply the hero phone media chosen in the admin panel
