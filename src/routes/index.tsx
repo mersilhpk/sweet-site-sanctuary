@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import logoAsset from "@/assets/cakeweb-logo.png.asset.json";
+import { SiteAdmin, useSiteMedia } from "@/components/site-admin";
+import { SiteExtraSections } from "@/components/site-extra-sections";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -59,6 +62,8 @@ const SITE_SCRIPT = "\nfunction openModal(title){\n  document.getElementById('vm
 
 function HomePage() {
   const ref = useRef<HTMLElement>(null);
+  const { media, reload } = useSiteMedia();
+  const [extraHost, setExtraHost] = useState<HTMLElement | null>(null);
   useEffect(() => {
     if (!ref.current) return;
     const root = ref.current;
