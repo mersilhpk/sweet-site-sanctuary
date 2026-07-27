@@ -14,7 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      site_media: {
+        Row: {
+          media_type: string
+          slot: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          media_type?: string
+          slot: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          media_type?: string
+          slot?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
