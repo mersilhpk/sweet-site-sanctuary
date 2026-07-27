@@ -116,6 +116,7 @@ function HomePage() {
   useEffect(() => {
     const root = ref.current;
     if (!root) return;
+    console.log("CWDBG host effect", !!root);
     const anchor =
       root.querySelector("#v2-template")?.closest("section") ??
       root.querySelector(".v2-wrap")?.closest("section");
