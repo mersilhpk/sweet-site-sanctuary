@@ -48,6 +48,7 @@ type SlotGroup = { title: string; slots: string[]; hint: string };
 
 export function SiteAdmin({ onChanged }: { onChanged: () => void }) {
   const [isAdmin, setIsAdmin] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
@@ -55,6 +56,7 @@ export function SiteAdmin({ onChanged }: { onChanged: () => void }) {
   const [busy, setBusy] = useState<string | null>(null);
 
   useEffect(() => {
+    setMounted(true);
     adminStatus()
       .then((r) => setIsAdmin(r.admin))
       .catch(() => setIsAdmin(false));
@@ -145,7 +147,7 @@ export function SiteAdmin({ onChanged }: { onChanged: () => void }) {
     setOpen(false);
   }
 
-  if (typeof document === "undefined") return null;
+  if (!mounted || typeof document === "undefined") return null;
 
   return createPortal(
     <>
