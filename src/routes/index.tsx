@@ -348,5 +348,14 @@ const ADMIN_STYLES = `
 .cw-admin-slot span{min-width:32px;font-weight:600;color:#7c3aed}
 .cw-admin-slot input[type=file]{flex:1;min-width:180px;font-size:12px}
 .cw-admin-slot button{border:1px solid rgba(124,58,237,.25);background:#fff;color:#7c3aed;border-radius:8px;padding:5px 10px;cursor:pointer;font-size:12px}
-@media (max-width:760px){.cw-sec{padding:44px 14px}.cw-sec-inner{padding:26px 16px;border-radius:22px}.cw-sec h2{font-size:23px}.cw-client-card{width:150px;height:104px}.cw-car-arrow{width:36px;height:36px}}
+@media (max-width:760px){.cw-sec{padding:44px 14px}.cw-sec-inner{padding:26px 16px;border-radius:22px}.cw-sec h2{font-size:23px}.cw-client-card{width:150px;height:104px}
+#servicos-galeria .cw-sec-inner{padding-left:0;padding-right:0}
+#servicos-galeria .cw-eyebrow,#servicos-galeria h2,#servicos-galeria .cw-sub{margin-left:16px;margin-right:16px}
+#servicos-galeria .cw-carousel{position:relative;display:block;margin:0}
+#servicos-galeria .cw-car-stage{width:100%;aspect-ratio:4/5;border-radius:18px;border-left:none;border-right:none}
+#servicos-galeria .cw-car-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:38px;height:38px;background:rgba(255,255,255,.82);backdrop-filter:blur(6px);box-shadow:0 6px 18px rgba(31,18,53,.18)}
+#servicos-galeria .cw-car-arrow:first-of-type{left:10px}
+#servicos-galeria .cw-car-arrow:last-of-type{right:10px}
+#servicos-galeria .cw-car-arrow:active{transform:translateY(-50%) scale(.94)}
+}
 `;
