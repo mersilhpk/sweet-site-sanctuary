@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { CLIENT_SLOTS, SERVICE_SLOTS, type MediaMap } from "./site-admin";
+import { CControlSection } from "./ccontrol-section";
 
 function Placeholder({ label }: { label: string }) {
   return (
@@ -31,6 +32,7 @@ export function SiteExtraSections({ media }: { media: MediaMap }) {
 
   return (
     <>
+      <CControlSection />
       <section id="clientes-cakeweb" className="cw-sec">
         <div className="cw-sec-inner">
           <small className="cw-eyebrow">CLIENTES</small>
