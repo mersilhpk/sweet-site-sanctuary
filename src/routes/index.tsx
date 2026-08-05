@@ -73,12 +73,13 @@ function HomePage() {
   // DOM enhancements below are re-applied instead of being wiped out.
   useEffect(() => {
     const root = ref.current;
+    if (!root) return;
     const hero = root.querySelector<HTMLElement>(".hero");
     if (hero && !hero.querySelector(".hero-tech-background")) {
       const backgroundVideo = document.createElement("video");
       backgroundVideo.className = "hero-tech-background";
       backgroundVideo.src = heroTechBackground.url;
-      backgroundVideo.autoPlay = true;
+      backgroundVideo.setAttribute("autoplay", "");
       backgroundVideo.muted = true;
       backgroundVideo.loop = true;
       backgroundVideo.playsInline = true;
@@ -87,7 +88,6 @@ function HomePage() {
       hero.prepend(backgroundVideo);
       void backgroundVideo.play().catch(() => {});
     }
-    if (!root) return;
     const mo = new MutationObserver((records) => {
       const rerendered = records.some(
         (r) =>
