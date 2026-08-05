@@ -35,6 +35,13 @@ export function useSiteMedia() {
       };
     }
     setMedia(next);
+    for (const [slot, item] of Object.entries(next)) {
+      if (slot.startsWith("modelo_") && item.mediaType === "image") {
+        const preload = new Image();
+        preload.decoding = "async";
+        preload.src = item.url;
+      }
+    }
   }, []);
 
   useEffect(() => {
