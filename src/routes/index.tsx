@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import logoAsset from "@/assets/cakeweb-logo.png.asset.json";
+import heroTechBackground from "@/assets/hero-tech-background.mp4.asset.json";
 import { SiteAdmin, useSiteMedia } from "@/components/site-admin";
 import { SiteExtraSections } from "@/components/site-extra-sections";
 
@@ -72,6 +73,20 @@ function HomePage() {
   // DOM enhancements below are re-applied instead of being wiped out.
   useEffect(() => {
     const root = ref.current;
+    const hero = root.querySelector<HTMLElement>(".hero");
+    if (hero && !hero.querySelector(".hero-tech-background")) {
+      const backgroundVideo = document.createElement("video");
+      backgroundVideo.className = "hero-tech-background";
+      backgroundVideo.src = heroTechBackground.url;
+      backgroundVideo.autoPlay = true;
+      backgroundVideo.muted = true;
+      backgroundVideo.loop = true;
+      backgroundVideo.playsInline = true;
+      backgroundVideo.preload = "auto";
+      backgroundVideo.setAttribute("aria-hidden", "true");
+      hero.prepend(backgroundVideo);
+      void backgroundVideo.play().catch(() => {});
+    }
     if (!root) return;
     const mo = new MutationObserver((records) => {
       const rerendered = records.some(
@@ -230,8 +245,8 @@ function HomePage() {
       overlay.style.display = "block";
       overlay.innerHTML =
         item.mediaType === "video"
-          ? `<video src="${item.url}" autoplay muted loop playsinline></video>`
-          : `<img src="${item.url}" alt="Modelo de site CakeWeb" />`;
+          ? `<video src="${item.url}" autoplay muted loop playsinline preload="metadata"></video>`
+          : `<img src="${item.url}" alt="Modelo de site CakeWeb" loading="eager" decoding="async" fetchpriority="high" />`;
     };
     const prev = root.querySelector("#v2-site-prev");
     const next = root.querySelector("#v2-site-next");
@@ -286,6 +301,13 @@ function HomePage() {
         .nav-links a{color:#5f6368!important;}
         .hero-sub{color:#5f6368!important;}
         .sh p,.card p,.plan-card li,.guar-item p{color:#c9b9e0!important;}
+        .hero{position:relative;isolation:isolate;overflow:hidden;}
+        .hero-tech-background{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;opacity:.2;pointer-events:none;filter:saturate(.8) hue-rotate(8deg);}
+        .hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,.94) 0%,rgba(255,255,255,.83) 48%,rgba(255,255,255,.66) 100%);}
+        .cw-model-overlay{background:#f5f3fb;}
+        .cw-model-overlay img,.cw-model-overlay video{transition:opacity .25s ease;}
+        @media(max-width:700px){.hero-tech-background{opacity:.15}.hero::after{background:rgba(255,255,255,.84)}}
+        @media(prefers-reduced-motion:reduce){.hero-tech-background{display:none}}
       `}</style>
       <style dangerouslySetInnerHTML={{ __html: ADMIN_STYLES }} />
       <main id="conteudo" ref={ref} dangerouslySetInnerHTML={SITE_MARKUP} />

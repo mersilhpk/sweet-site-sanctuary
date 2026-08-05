@@ -1,7 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
 
-const BUCKET = "site-media";
-
 export const adminLogin = createServerFn({ method: "POST" })
   .inputValidator((data: { username: string; password: string }) => data)
   .handler(async ({ data }) => {
@@ -39,13 +37,14 @@ export const requestUpload = createServerFn({ method: "POST" })
     const slot = data.slot.replace(/[^a-z0-9_-]/gi, "").slice(0, 40);
     const ext = (data.ext || "bin").replace(/[^a-z0-9]/gi, "").slice(0, 5).toLowerCase();
     if (!slot) throw new Error("Slot inválido");
+    const bucket = "site-media";
     const path = `${slot}/${Date.now()}.${ext}`;
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: signed, error } = await supabaseAdmin.storage
-      .from(BUCKET)
+      .from(bucket)
       .createSignedUploadUrl(path);
     if (error || !signed) throw new Error(error?.message ?? "Falha ao preparar upload");
-    return { path: signed.path, token: signed.token, bucket: BUCKET };
+    return { path: signed.path, token: signed.token, bucket };
   });
 
 export const saveMedia = createServerFn({ method: "POST" })
@@ -57,6 +56,11 @@ export const saveMedia = createServerFn({ method: "POST" })
     if (!slot || !data.path) throw new Error("Dados inválidos");
     const mediaType = data.mediaType === "video" ? "video" : "image";
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: previous } = await supabaseAdmin
+      .from("site_media")
+      .select("url")
+      .eq("slot", slot)
+      .maybeSingle();
     const { error } = await supabaseAdmin
       .from("site_media")
       .upsert(
@@ -64,6 +68,12 @@ export const saveMedia = createServerFn({ method: "POST" })
         { onConflict: "slot" },
       );
     if (error) throw new Error(error.message);
+    if (previous?.url && previous.url !== data.path) {
+      const { error: removeError } = await supabaseAdmin.storage
+        .from("site-media")
+        .remove([previous.url]);
+      if (removeError) console.error("Falha ao remover mídia substituída", removeError.message);
+    }
     return { ok: true as const, slot, url: `/api/public/media/${data.path}`, mediaType };
   });
 
@@ -73,7 +83,18 @@ export const removeMedia = createServerFn({ method: "POST" })
     const { assertAdmin } = await import("./admin-session.server");
     await assertAdmin();
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: previous } = await supabaseAdmin
+      .from("site_media")
+      .select("url")
+      .eq("slot", data.slot)
+      .maybeSingle();
     const { error } = await supabaseAdmin.from("site_media").delete().eq("slot", data.slot);
     if (error) throw new Error(error.message);
+    if (previous?.url) {
+      const { error: removeError } = await supabaseAdmin.storage
+        .from("site-media")
+        .remove([previous.url]);
+      if (removeError) throw new Error(removeError.message);
+    }
     return { ok: true as const };
   });
