@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      site_clients: {
+        Row: {
+          active: boolean
+          created_at: string
+          id: string
+          logo_url: string | null
+          media_type: string
+          name: string
+          site_url: string | null
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          logo_url?: string | null
+          media_type?: string
+          name: string
+          site_url?: string | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          logo_url?: string | null
+          media_type?: string
+          name?: string
+          site_url?: string | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       site_media: {
         Row: {
           media_type: string
@@ -32,6 +68,48 @@ export type Database = {
           slot?: string
           updated_at?: string
           url?: string
+        }
+        Relationships: []
+      }
+      site_projects: {
+        Row: {
+          active: boolean
+          created_at: string
+          description: string | null
+          extra_info: string | null
+          id: string
+          image_url: string | null
+          media_type: string
+          name: string
+          site_url: string | null
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          description?: string | null
+          extra_info?: string | null
+          id?: string
+          image_url?: string | null
+          media_type?: string
+          name: string
+          site_url?: string | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          description?: string | null
+          extra_info?: string | null
+          id?: string
+          image_url?: string | null
+          media_type?: string
+          name?: string
+          site_url?: string | null
+          sort_order?: number
+          updated_at?: string
         }
         Relationships: []
       }
