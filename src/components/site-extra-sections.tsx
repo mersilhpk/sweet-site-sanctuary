@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { CLIENT_SLOTS, SERVICE_SLOTS, type MediaMap } from "./site-admin";
+import { SERVICE_SLOTS, type MediaMap } from "./site-admin";
 import { CControlSection } from "./ccontrol-section";
+import { storageUrl, useSiteClients } from "@/lib/site-content";
 
 function Placeholder({ label }: { label: string }) {
   return (
@@ -15,9 +16,8 @@ function Placeholder({ label }: { label: string }) {
 }
 
 export function SiteExtraSections({ media }: { media: MediaMap }) {
-  const clients = CLIENT_SLOTS.map((s) => ({ slot: s, item: media[s] }));
-  const filledClients = clients.filter((c) => c.item);
-  const track = filledClients.length ? [...filledClients, ...filledClients] : clients;
+  const { clients } = useSiteClients();
+  const track = clients.length ? [...clients, ...clients] : [];
 
   const services = SERVICE_SLOTS.map((s) => ({ slot: s, item: media[s] }));
   const [idx, setIdx] = useState(0);
@@ -41,21 +41,31 @@ export function SiteExtraSections({ media }: { media: MediaMap }) {
             Operações que confiam na CakeWeb para estruturar e escalar o comercial.
           </p>
           <div className="cw-marquee" aria-label="Carrossel de clientes">
-            <div className={`cw-marquee-track${filledClients.length ? " is-running" : ""}`}>
-              {track.map((c, i) => (
-                <div className="cw-client-card" key={`${c.slot}-${i}`}>
-                  {c.item ? (
-                    c.item.mediaType === "video" ? (
-                      <video src={c.item.url} autoPlay muted loop playsInline />
+            {track.length ? (
+              <div className="cw-marquee-track is-running">
+                {track.map((c, i) => (
+                  <div className="cw-client-card" key={`${c.id}-${i}`}>
+                    {c.logo_url ? (
+                      c.media_type === "video" ? (
+                        <video src={storageUrl(c.logo_url)} autoPlay muted loop playsInline />
+                      ) : (
+                        <img src={storageUrl(c.logo_url)} alt={c.name} loading="lazy" />
+                      )
                     ) : (
-                      <img src={c.item.url} alt={`Cliente CakeWeb ${i + 1}`} loading="lazy" />
-                    )
-                  ) : (
+                      <Placeholder label={c.name} />
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="cw-marquee-track">
+                {Array.from({ length: 5 }, (_, i) => (
+                  <div className="cw-client-card" key={i}>
                     <Placeholder label={`Cliente ${i + 1}`} />
-                  )}
-                </div>
-              ))}
-            </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>
