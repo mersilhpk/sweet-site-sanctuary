@@ -5,6 +5,7 @@ import logoAsset from "@/assets/cakeweb-logo.png.asset.json";
 import heroTechBackground from "@/assets/hero-tech-background.webm.asset.json";
 import { SiteAdmin, useSiteMedia } from "@/components/site-admin";
 import { SiteExtraSections } from "@/components/site-extra-sections";
+import { SiteShowcase } from "@/components/site-showcase";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -67,6 +68,7 @@ function HomePage() {
   const ref = useRef<HTMLElement>(null);
   const { media, reload } = useSiteMedia();
   const [extraHost, setExtraHost] = useState<HTMLElement | null>(null);
+  const [showcaseHost, setShowcaseHost] = useState<HTMLElement | null>(null);
   const [domVersion, setDomVersion] = useState(0);
 
   // React re-renders the injected markup once after hydration; track it so the
@@ -174,7 +176,7 @@ function HomePage() {
     if (!root) return;
     const attach = () => {
       const anchor =
-        root.querySelector("#v2-template")?.closest("section") ??
+        root.querySelector("#cw-showcase-host")?.closest("section") ??
         root.querySelector(".v2-wrap")?.closest("section");
       if (!anchor) return false;
       let host = document.getElementById("cw-extra-host");
@@ -191,6 +193,13 @@ function HomePage() {
     if (attach()) return;
     const t = window.setTimeout(attach, 300);
     return () => window.clearTimeout(t);
+  }, [domVersion]);
+
+  // Host for the React-rendered "Modelos de site" showcase
+  useEffect(() => {
+    const root = ref.current;
+    if (!root) return;
+    setShowcaseHost(root.querySelector<HTMLElement>("#cw-showcase-host"));
   }, [domVersion]);
 
   // Apply the hero phone media chosen in the admin panel
@@ -223,49 +232,6 @@ function HomePage() {
       img.alt = "Destaque CakeWeb";
       frame.appendChild(img);
     }
-  }, [media, domVersion]);
-
-  // Apply the notebook "Modelos de site" media
-  useEffect(() => {
-    const root = ref.current;
-    if (!root) return;
-    const screen = root.querySelector<HTMLElement>(".v2-screen");
-    if (!screen) return;
-    let idx = 0;
-    const overlay = document.createElement("div");
-    overlay.className = "cw-model-overlay";
-    screen.appendChild(overlay);
-    const render = () => {
-      const item = media[`modelo_${idx + 1}`];
-      if (!item) {
-        overlay.innerHTML = "";
-        overlay.style.display = "none";
-        return;
-      }
-      overlay.style.display = "block";
-      overlay.innerHTML =
-        item.mediaType === "video"
-          ? `<video src="${item.url}" autoplay muted loop playsinline preload="metadata"></video>`
-          : `<img src="${item.url}" alt="Modelo de site CakeWeb" loading="eager" decoding="async" fetchpriority="high" />`;
-    };
-    const prev = root.querySelector("#v2-site-prev");
-    const next = root.querySelector("#v2-site-next");
-    const onPrev = () => {
-      idx = (idx + 3) % 4;
-      render();
-    };
-    const onNext = () => {
-      idx = (idx + 1) % 4;
-      render();
-    };
-    prev?.addEventListener("click", onPrev);
-    next?.addEventListener("click", onNext);
-    render();
-    return () => {
-      prev?.removeEventListener("click", onPrev);
-      next?.removeEventListener("click", onNext);
-      overlay.remove();
-    };
   }, [media, domVersion]);
 
   return (
@@ -311,6 +277,7 @@ function HomePage() {
       `}</style>
       <style dangerouslySetInnerHTML={{ __html: ADMIN_STYLES }} />
       <main id="conteudo" ref={ref} dangerouslySetInnerHTML={SITE_MARKUP} />
+      {showcaseHost && createPortal(<SiteShowcase />, showcaseHost)}
       {extraHost && createPortal(<SiteExtraSections media={media} />, extraHost)}
       <SiteAdmin onChanged={reload} />
     </>
