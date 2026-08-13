@@ -98,3 +98,158 @@ export const removeMedia = createServerFn({ method: "POST" })
     }
     return { ok: true as const };
   });
+type ProjectInput = {
+  id?: string;
+  name: string;
+  image_url?: string | null;
+  media_type?: string;
+  site_url?: string | null;
+  description?: string | null;
+  extra_info?: string | null;
+  sort_order?: number;
+  active?: boolean;
+};
+
+type ClientInput = {
+  id?: string;
+  name: string;
+  logo_url?: string | null;
+  media_type?: string;
+  site_url?: string | null;
+  sort_order?: number;
+  active?: boolean;
+};
+
+export const listProjectsAdmin = createServerFn({ method: "GET" }).handler(async () => {
+  const { assertAdmin } = await import("./admin-session.server");
+  await assertAdmin();
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data, error } = await supabaseAdmin
+    .from("site_projects")
+    .select("*")
+    .order("sort_order", { ascending: true });
+  if (error) throw new Error(error.message);
+  return { items: data ?? [] };
+});
+
+export const saveProject = createServerFn({ method: "POST" })
+  .inputValidator((data: ProjectInput) => data)
+  .handler(async ({ data }) => {
+    const { assertAdmin } = await import("./admin-session.server");
+    await assertAdmin();
+    if (!data.name?.trim()) throw new Error("Nome obrigatório");
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const row = {
+      name: data.name.trim(),
+      image_url: data.image_url ?? null,
+      media_type: data.media_type === "video" ? "video" : "image",
+      site_url: data.site_url ?? null,
+      description: data.description ?? null,
+      extra_info: data.extra_info ?? null,
+      sort_order: Number.isFinite(data.sort_order) ? Number(data.sort_order) : 0,
+      active: data.active !== false,
+    };
+    if (data.id) {
+      const { data: prev } = await supabaseAdmin
+        .from("site_projects")
+        .select("image_url")
+        .eq("id", data.id)
+        .maybeSingle();
+      const { error } = await supabaseAdmin.from("site_projects").update(row).eq("id", data.id);
+      if (error) throw new Error(error.message);
+      if (prev?.image_url && row.image_url && prev.image_url !== row.image_url) {
+        await supabaseAdmin.storage.from("site-media").remove([prev.image_url]);
+      }
+      return { ok: true as const, id: data.id };
+    }
+    const { data: inserted, error } = await supabaseAdmin
+      .from("site_projects")
+      .insert(row)
+      .select("id")
+      .single();
+    if (error) throw new Error(error.message);
+    return { ok: true as const, id: inserted.id };
+  });
+
+export const deleteProject = createServerFn({ method: "POST" })
+  .inputValidator((data: { id: string }) => data)
+  .handler(async ({ data }) => {
+    const { assertAdmin } = await import("./admin-session.server");
+    await assertAdmin();
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: prev } = await supabaseAdmin
+      .from("site_projects")
+      .select("image_url")
+      .eq("id", data.id)
+      .maybeSingle();
+    const { error } = await supabaseAdmin.from("site_projects").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    if (prev?.image_url) await supabaseAdmin.storage.from("site-media").remove([prev.image_url]);
+    return { ok: true as const };
+  });
+
+export const listClientsAdmin = createServerFn({ method: "GET" }).handler(async () => {
+  const { assertAdmin } = await import("./admin-session.server");
+  await assertAdmin();
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data, error } = await supabaseAdmin
+    .from("site_clients")
+    .select("*")
+    .order("sort_order", { ascending: true });
+  if (error) throw new Error(error.message);
+  return { items: data ?? [] };
+});
+
+export const saveClient = createServerFn({ method: "POST" })
+  .inputValidator((data: ClientInput) => data)
+  .handler(async ({ data }) => {
+    const { assertAdmin } = await import("./admin-session.server");
+    await assertAdmin();
+    if (!data.name?.trim()) throw new Error("Nome obrigatório");
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const row = {
+      name: data.name.trim(),
+      logo_url: data.logo_url ?? null,
+      media_type: data.media_type === "video" ? "video" : "image",
+      site_url: data.site_url ?? null,
+      sort_order: Number.isFinite(data.sort_order) ? Number(data.sort_order) : 0,
+      active: data.active !== false,
+    };
+    if (data.id) {
+      const { data: prev } = await supabaseAdmin
+        .from("site_clients")
+        .select("logo_url")
+        .eq("id", data.id)
+        .maybeSingle();
+      const { error } = await supabaseAdmin.from("site_clients").update(row).eq("id", data.id);
+      if (error) throw new Error(error.message);
+      if (prev?.logo_url && row.logo_url && prev.logo_url !== row.logo_url) {
+        await supabaseAdmin.storage.from("site-media").remove([prev.logo_url]);
+      }
+      return { ok: true as const, id: data.id };
+    }
+    const { data: inserted, error } = await supabaseAdmin
+      .from("site_clients")
+      .insert(row)
+      .select("id")
+      .single();
+    if (error) throw new Error(error.message);
+    return { ok: true as const, id: inserted.id };
+  });
+
+export const deleteClient = createServerFn({ method: "POST" })
+  .inputValidator((data: { id: string }) => data)
+  .handler(async ({ data }) => {
+    const { assertAdmin } = await import("./admin-session.server");
+    await assertAdmin();
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: prev } = await supabaseAdmin
+      .from("site_clients")
+      .select("logo_url")
+      .eq("id", data.id)
+      .maybeSingle();
+    const { error } = await supabaseAdmin.from("site_clients").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    if (prev?.logo_url) await supabaseAdmin.storage.from("site-media").remove([prev.logo_url]);
+    return { ok: true as const };
+  });
