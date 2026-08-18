@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import logoAsset from "@/assets/cakeweb-logo.png.asset.json";
-import heroTechBackground from "@/assets/hero-tech-background.webm.asset.json";
+import heroTechBackground from "@/assets/hero-tech-background-2.webm.asset.json";
 import { SiteAdmin, useSiteMedia } from "@/components/site-admin";
 import { SiteExtraSections } from "@/components/site-extra-sections";
 import { SiteShowcase } from "@/components/site-showcase";
