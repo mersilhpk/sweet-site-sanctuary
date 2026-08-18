@@ -10,6 +10,17 @@ export function SiteShowcase() {
     if (idx > projects.length - 1) setIdx(0);
   }, [projects.length, idx]);
 
+  // Pré-carrega todas as mídias para que a troca seja instantânea
+  useEffect(() => {
+    projects.forEach((p) => {
+      if (p.image_url && p.media_type !== "video") {
+        const img = new Image();
+        img.decoding = "async";
+        img.src = storageUrl(p.image_url);
+      }
+    });
+  }, [projects]);
+
   const current = projects[idx];
   const total = projects.length;
 
@@ -35,23 +46,31 @@ export function SiteShowcase() {
           <div className="cw-laptop">
             <div className="cw-laptop-cam" />
             <div className="cw-laptop-screen">
-              {current?.image_url ? (
-                current.media_type === "video" ? (
-                  <video
-                    src={storageUrl(current.image_url)}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                  />
-                ) : (
-                  <img
-                    src={storageUrl(current.image_url)}
-                    alt={`Modelo de site — ${current.name}`}
-                    loading="eager"
-                    decoding="async"
-                  />
+              {projects.length ? (
+                projects.map((p, i) =>
+                  p.image_url ? (
+                    <div
+                      key={p.id}
+                      className="cw-laptop-slide"
+                      style={{
+                        opacity: i === idx ? 1 : 0,
+                        visibility: i === idx ? "visible" : "hidden",
+                      }}
+                      aria-hidden={i !== idx}
+                    >
+                      {p.media_type === "video" ? (
+                        <video src={storageUrl(p.image_url)} autoPlay muted loop playsInline preload="auto" />
+                      ) : (
+                        <img
+                          src={storageUrl(p.image_url)}
+                          alt={`Modelo de site — ${p.name}`}
+                          loading="eager"
+                          decoding="async"
+                          fetchPriority={i === idx ? "high" : "low"}
+                        />
+                      )}
+                    </div>
+                  ) : null,
                 )
               ) : (
                 <div className="cw-project-empty">
