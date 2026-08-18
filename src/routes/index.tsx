@@ -359,6 +359,10 @@ const ADMIN_STYLES = `
 .cw-laptop-cam{width:6px;height:6px;border-radius:50%;background:rgba(124,58,237,.35);margin:0 auto 8px}
 .cw-laptop-screen{position:relative;width:100%;aspect-ratio:16/10;border:10px solid #1f1235;border-radius:18px;overflow:hidden;background:#f5f3fb;box-shadow:0 24px 60px rgba(31,18,53,.18)}
 .cw-laptop-screen img,.cw-laptop-screen video{width:100%;height:100%;object-fit:cover;display:block}
+.cw-laptop-slide{position:absolute;inset:0;transition:opacity .25s ease}
+.cw-admin-msg{margin-top:8px;font-size:12px;border-radius:10px;padding:8px 10px;line-height:1.4}
+.cw-admin-msg.is-ok{background:#efe9ff;color:#4b2ea8}
+.cw-admin-msg.is-err{background:#fdecec;color:#a32020}
 .cw-laptop-base{height:14px;width:82%;margin:0 auto;border-radius:0 0 16px 16px;background:linear-gradient(180deg,#2a1a45,#1f1235)}
 .cw-project-empty{display:grid;place-items:center;height:100%;color:#7c3aed;font-size:13px;text-align:center;padding:20px}
 .cw-project-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:42px;height:42px;border-radius:50%;border:1px solid rgba(124,58,237,.25);background:rgba(255,255,255,.9);backdrop-filter:blur(6px);color:#7c3aed;font-size:17px;cursor:pointer;box-shadow:0 8px 22px rgba(31,18,53,.14)}
