@@ -90,6 +90,30 @@ function HomePage() {
       hero.prepend(backgroundVideo);
       void backgroundVideo.play().catch(() => {});
     }
+    // Headline rotativo (3 frases com fade suave)
+    let rotateTimer: ReturnType<typeof setInterval> | undefined;
+    const h1 = root.querySelector<HTMLElement>(".hero h1");
+    if (h1 && !h1.querySelector(".hl-rot")) {
+      const phrases = [
+        'Sua empresa transformada em uma <em>máquina de vendas.</em>',
+        'Processo, CRM e IA operando como <em>um só motor de receita.</em>',
+        'Menos improviso, mais <em>previsibilidade em cada negociação.</em>',
+      ];
+      const rot = document.createElement("span");
+      rot.className = "hl-rot";
+      rot.innerHTML = phrases[0];
+      h1.innerHTML = "";
+      h1.appendChild(rot);
+      let i = 0;
+      rotateTimer = setInterval(() => {
+        rot.classList.add("is-out");
+        setTimeout(() => {
+          i = (i + 1) % phrases.length;
+          rot.innerHTML = phrases[i];
+          rot.classList.remove("is-out");
+        }, 620);
+      }, 5200);
+    }
     const mo = new MutationObserver((records) => {
       const rerendered = records.some(
         (r) =>
@@ -103,7 +127,10 @@ function HomePage() {
       }
     });
     mo.observe(root, { childList: true });
-    return () => mo.disconnect();
+    return () => {
+      mo.disconnect();
+      if (rotateTimer) clearInterval(rotateTimer);
+    };
   }, []);
 
   // Brand logos (header + footer)
