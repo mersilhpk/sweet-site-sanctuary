@@ -91,9 +91,31 @@ async function uploadFile(slot: string, file: File) {
   return { path: up.path, mediaType: file.type.startsWith("video") ? "video" : "image" };
 }
 
+type Msg = { kind: "ok" | "err"; text: string } | null;
+
+function errText(e: unknown) {
+  if (e instanceof Error) return e.message;
+  if (typeof e === "string") return e;
+  try {
+    return JSON.stringify(e);
+  } catch {
+    return "Erro desconhecido";
+  }
+}
+
+function AdminMsg({ msg }: { msg: Msg }) {
+  if (!msg) return null;
+  return (
+    <div className={`cw-admin-msg ${msg.kind === "ok" ? "is-ok" : "is-err"}`} role="status" aria-live="polite">
+      {msg.text}
+    </div>
+  );
+}
+
 function ProjectsManager({ onChanged }: { onChanged: () => void }) {
   const [rows, setRows] = useState<ProjectRow[]>([]);
   const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<Msg>(null);
 
   const load = useCallback(async () => {
     const res = await listProjectsAdmin();
@@ -110,10 +132,14 @@ function ProjectsManager({ onChanged }: { onChanged: () => void }) {
 
   async function persist(row: ProjectRow) {
     setBusy(true);
+    setMsg(null);
     try {
       await saveProject({ data: row });
       await load();
       onChanged();
+      setMsg({ kind: "ok", text: `Alterações salvas em "${row.name}".` });
+    } catch (e) {
+      setMsg({ kind: "err", text: `Erro ao salvar: ${errText(e)}` });
     } finally {
       setBusy(false);
     }
@@ -121,9 +147,13 @@ function ProjectsManager({ onChanged }: { onChanged: () => void }) {
 
   async function create() {
     setBusy(true);
+    setMsg(null);
     try {
       await saveProject({ data: { name: "Novo projeto", sort_order: rows.length + 1 } });
       await load();
+      setMsg({ kind: "ok", text: "Projeto criado." });
+    } catch (e) {
+      setMsg({ kind: "err", text: `Erro ao criar projeto: ${errText(e)}` });
     } finally {
       setBusy(false);
     }
@@ -131,11 +161,15 @@ function ProjectsManager({ onChanged }: { onChanged: () => void }) {
 
   async function upload(row: ProjectRow, file: File) {
     setBusy(true);
+    setMsg(null);
     try {
       const up = await uploadFile(`projeto_${row.id.slice(0, 8)}`, file);
       await saveProject({ data: { ...row, image_url: up.path, media_type: up.mediaType } });
       await load();
       onChanged();
+      setMsg({ kind: "ok", text: `Mídia enviada para "${row.name}".` });
+    } catch (e) {
+      setMsg({ kind: "err", text: `Erro no upload: ${errText(e)}` });
     } finally {
       setBusy(false);
     }
@@ -203,9 +237,18 @@ function ProjectsManager({ onChanged }: { onChanged: () => void }) {
               type="button"
               disabled={busy}
               onClick={async () => {
-                await deleteProject({ data: { id: row.id } });
-                await load();
-                onChanged();
+                setBusy(true);
+                setMsg(null);
+                try {
+                  await deleteProject({ data: { id: row.id } });
+                  await load();
+                  onChanged();
+                  setMsg({ kind: "ok", text: `Projeto "${row.name}" excluído.` });
+                } catch (e) {
+                  setMsg({ kind: "err", text: `Erro ao excluir: ${errText(e)}` });
+                } finally {
+                  setBusy(false);
+                }
               }}
             >
               Excluir
@@ -213,6 +256,7 @@ function ProjectsManager({ onChanged }: { onChanged: () => void }) {
           </div>
         </div>
       ))}
+      <AdminMsg msg={msg} />
       <button type="button" className="cw-admin-primary" disabled={busy} onClick={() => void create()}>
         Adicionar projeto
       </button>
@@ -223,6 +267,7 @@ function ProjectsManager({ onChanged }: { onChanged: () => void }) {
 function ClientsManager({ onChanged }: { onChanged: () => void }) {
   const [rows, setRows] = useState<ClientRow[]>([]);
   const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<Msg>(null);
 
   const load = useCallback(async () => {
     const res = await listClientsAdmin();
@@ -239,11 +284,15 @@ function ClientsManager({ onChanged }: { onChanged: () => void }) {
 
   async function upload(row: ClientRow, file: File) {
     setBusy(true);
+    setMsg(null);
     try {
       const up = await uploadFile(`cliente_${row.id.slice(0, 8)}`, file);
       await saveClient({ data: { ...row, logo_url: up.path, media_type: up.mediaType } });
       await load();
       onChanged();
+      setMsg({ kind: "ok", text: `Logo enviada para "${row.name}".` });
+    } catch (e) {
+      setMsg({ kind: "err", text: `Erro no upload: ${errText(e)}` });
     } finally {
       setBusy(false);
     }
@@ -292,10 +341,14 @@ function ClientsManager({ onChanged }: { onChanged: () => void }) {
               disabled={busy}
               onClick={async () => {
                 setBusy(true);
+                setMsg(null);
                 try {
                   await saveClient({ data: row });
                   await load();
                   onChanged();
+                  setMsg({ kind: "ok", text: `Alterações salvas em "${row.name}".` });
+                } catch (e) {
+                  setMsg({ kind: "err", text: `Erro ao salvar: ${errText(e)}` });
                 } finally {
                   setBusy(false);
                 }
@@ -307,9 +360,18 @@ function ClientsManager({ onChanged }: { onChanged: () => void }) {
               type="button"
               disabled={busy}
               onClick={async () => {
-                await deleteClient({ data: { id: row.id } });
-                await load();
-                onChanged();
+                setBusy(true);
+                setMsg(null);
+                try {
+                  await deleteClient({ data: { id: row.id } });
+                  await load();
+                  onChanged();
+                  setMsg({ kind: "ok", text: `Cliente "${row.name}" excluído.` });
+                } catch (e) {
+                  setMsg({ kind: "err", text: `Erro ao excluir: ${errText(e)}` });
+                } finally {
+                  setBusy(false);
+                }
               }}
             >
               Excluir
@@ -317,15 +379,20 @@ function ClientsManager({ onChanged }: { onChanged: () => void }) {
           </div>
         </div>
       ))}
+      <AdminMsg msg={msg} />
       <button
         type="button"
         className="cw-admin-primary"
         disabled={busy}
         onClick={async () => {
           setBusy(true);
+          setMsg(null);
           try {
             await saveClient({ data: { name: "Novo cliente", sort_order: rows.length + 1 } });
             await load();
+            setMsg({ kind: "ok", text: "Cliente criado." });
+          } catch (e) {
+            setMsg({ kind: "err", text: `Erro ao criar cliente: ${errText(e)}` });
           } finally {
             setBusy(false);
           }
