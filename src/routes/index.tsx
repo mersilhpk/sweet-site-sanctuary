@@ -301,7 +301,7 @@ function HomePage() {
         .nav-links a{color:#5f6368!important;}
         .hero-sub{color:#5f6368!important;}
         .sh p,.card p,.plan-card li,.guar-item p{color:#c9b9e0!important;}
-        .hero{position:relative;isolation:isolate;overflow:hidden;padding-top:140px;}
+        .hero{position:relative;isolation:isolate;overflow:hidden;padding-top:160px;}
         .hero-tech-background{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;opacity:.2;pointer-events:none;filter:saturate(.8) hue-rotate(8deg);}
         .hero::after{content:"";position:absolute;top:120px;left:0;right:0;bottom:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,.94) 0%,rgba(255,255,255,.83) 48%,rgba(255,255,255,.66) 100%);}
         .cw-model-overlay{background:#f5f3fb;}
