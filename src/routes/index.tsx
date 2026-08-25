@@ -311,7 +311,7 @@ function HomePage() {
         @media(max-width:700px){.hero-tech-background{opacity:.45}.hero::after{background:radial-gradient(ellipse 700px 500px at 50% 0%,rgba(124,58,237,.30),transparent 55%),linear-gradient(180deg,rgba(13,10,22,.60) 0%,rgba(13,10,22,.40) 50%,rgba(13,10,22,.80) 100%);top:0;}.hero{padding:110px 12px 18px!important;}}
         @media(prefers-reduced-motion:reduce){.hero-tech-background{display:none}}
         /* Tipografia editorial: H1 e corpo */
-        .hero h1{font-size:clamp(32px,4.4vw,58px);font-weight:600;line-height:1.08;letter-spacing:-.028em;max-width:19ch;min-height:2.16em;}
+        .hero h1{font-size:clamp(32px,4.4vw,58px);font-weight:600;line-height:1.08;letter-spacing:-.028em;max-width:19ch;min-height:2.16em;color:#fff;}
         .hero h1 .hl-rot{display:inline-block;opacity:1;transform:translateY(0);transition:opacity .6s cubic-bezier(.22,.61,.36,1),transform .6s cubic-bezier(.22,.61,.36,1);will-change:opacity,transform;}
         .hero h1 .hl-rot.is-out{opacity:0;transform:translateY(-12px);}
         .hero-sub{font-size:17px!important;line-height:1.65;font-weight:400!important;letter-spacing:-.005em;max-width:58ch;}
