@@ -309,7 +309,7 @@ function HomePage() {
         @media(max-width:700px){.hero-tech-background{opacity:.15}.hero::after{background:rgba(255,255,255,.84);top:90px;}.hero{padding:110px 12px 18px!important;}}
         @media(prefers-reduced-motion:reduce){.hero-tech-background{display:none}}
         /* Tipografia editorial: H1 e corpo */
-        .hero h1{font-size:clamp(32px,4.4vw,58px);font-weight:600;line-height:1.08;letter-spacing:-.028em;max-width:19ch;min-height:2.16em;color:#fff;}
+        .hero h1{font-size:clamp(32px,4.4vw,58px);font-weight:600;line-height:1.08;letter-spacing:-.028em;max-width:19ch;min-height:2.16em;}
         .hero h1 .hl-rot{display:inline-block;opacity:1;transform:translateY(0);transition:opacity .6s cubic-bezier(.22,.61,.36,1),transform .6s cubic-bezier(.22,.61,.36,1);will-change:opacity,transform;}
         .hero h1 .hl-rot.is-out{opacity:0;transform:translateY(-12px);}
         .hero-sub{font-size:17px!important;line-height:1.65;font-weight:400!important;letter-spacing:-.005em;max-width:58ch;}
