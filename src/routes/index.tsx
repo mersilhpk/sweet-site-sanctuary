@@ -271,11 +271,11 @@ function HomePage() {
         header a.logo.logo-img .dot, footer .logo.logo-img--footer .dot { display:none; }
         header{position:fixed!important;top:0;left:0;right:0;background:transparent!important;padding:12px 18px;pointer-events:none;z-index:100;}
         header>*{pointer-events:auto;}
-        .nav{background:rgba(255,255,255,0.35)!important;backdrop-filter:blur(20px) saturate(160%)!important;box-shadow:none!important;transition:background .25s ease,border-color .25s ease,box-shadow .25s ease;}
-        .nav:hover,.nav:focus-within{background:rgba(255,255,255,0.88)!important;box-shadow:0 14px 40px -12px rgba(124,58,237,.22);}
-        .nav a,.nav-burger,.nav .logo{color:#202124!important;text-shadow:0 1px 2px rgba(255,255,255,0.55);}
-        .nav .nav-cta{background:#fff!important;color:#7c3aed!important;border:1px solid rgba(124,58,237,.25)!important;box-shadow:0 4px 14px -4px rgba(124,58,237,.25)!important;font-weight:700!important;}
-        .nav .nav-cta:hover{background:#f5f3fb!important;border-color:rgba(124,58,237,.45)!important;transform:translateY(-2px)!important;box-shadow:0 8px 22px -4px rgba(124,58,237,.35)!important;}
+        .nav{background:rgba(20,10,40,0.55)!important;backdrop-filter:blur(20px) saturate(180%)!important;box-shadow:none!important;transition:background .25s ease,border-color .25s ease,box-shadow .25s ease;border:1px solid rgba(124,58,237,.35)!important;}
+        .nav:hover,.nav:focus-within{background:rgba(30,15,60,0.82)!important;box-shadow:0 14px 40px -12px rgba(124,58,237,.45);}
+        .nav a,.nav-burger,.nav .logo{color:#fff!important;text-shadow:0 1px 3px rgba(0,0,0,0.45);}
+        .nav .nav-cta{background:linear-gradient(135deg,#7c3aed,#a855f7)!important;color:#fff!important;border:1px solid rgba(168,85,247,.55)!important;box-shadow:0 0 18px -2px rgba(168,85,247,.55),0 4px 14px -4px rgba(124,58,237,.35)!important;font-weight:700!important;text-shadow:0 1px 2px rgba(0,0,0,.2);}
+        .nav .nav-cta:hover{background:linear-gradient(135deg,#6d28d9,#9333ea)!important;border-color:rgba(168,85,247,.75)!important;transform:translateY(-2px)!important;box-shadow:0 0 26px 0 rgba(168,85,247,.65),0 8px 22px -4px rgba(124,58,237,.45)!important;}
         body, .hero-sub, .card p, .plan-card li, .sh p, .guar-item p,
         .contact-info p, h1, h2, h3, h4, .logo, .btn-primary, .nav-cta {
           font-family: 'Roboto','Google Sans',Arial,sans-serif !important;
