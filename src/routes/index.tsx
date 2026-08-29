@@ -269,7 +269,7 @@ function HomePage() {
         header a.logo.logo-img img { display:block; height:44px; width:auto; }
         footer .logo.logo-img.logo-img--footer img { display:block; height:38px; width:auto; }
         header a.logo.logo-img .dot, footer .logo.logo-img--footer .dot { display:none; }
-        header{position:fixed!important;top:0;left:0;right:0;background:transparent!important;padding:12px 18px;pointer-events:none;z-index:100;}
+        header{position:fixed!important;top:0;left:0;right:0;background:transparent!important;padding:12px 18px;pointer-events:none;z-index:100;box-shadow:none!important;border-bottom:none!important;}
         header>*{pointer-events:auto;}
         .nav{background:rgba(255,255,255,0.35)!important;backdrop-filter:blur(20px) saturate(160%)!important;box-shadow:none!important;transition:background .25s ease,border-color .25s ease,box-shadow .25s ease;}
         .nav:hover,.nav:focus-within{background:rgba(255,255,255,0.88)!important;box-shadow:0 14px 40px -12px rgba(124,58,237,.22);}
