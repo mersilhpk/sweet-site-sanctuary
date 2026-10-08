@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { ArrowUpRight, MapPin, Pause, Play, Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import videoAsset from "@/assets/epica-creative.mp4.asset.json";
+import videoAsset from "@/assets/epica-web.webm.asset.json";
 import posterAsset from "@/assets/epica-poster.jpg.asset.json";
 
 const locationUrl = "https://www.google.com/maps?rlz=1C1VDKB_enBR1139BR1139&gs_lcrp=EgZjaHJvbWUyCggAEEUYFhgeGDkyBwgBEAAYgAQyCggCEAAYgAQYogQyBwgDEAAY7wUyBwgEEAAY7wUyBggFEEUYPNIBCDIyOTVqMGo3qAIAsAIA&um=1&ie=UTF-8&fb=1&gl=br&sa=X&geocode=KVW5Xxv7McaUMRPsD8zooFUy&daddr=Av.+Fran%C3%A7a,+207+-+Cidade+Alta,+Piracicaba+-+SP,+13416-520";

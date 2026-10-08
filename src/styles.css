@@ -44,6 +44,10 @@
 #conteudo .sh p,#conteudo .card p,#conteudo .plan-card li,#conteudo .guar-item p { color:var(--td)!important; }
 #conteudo #solucoes .layer-card.active p { color:var(--brand-white)!important; }
 #conteudo .combo-showcase-v2::before,#conteudo .ambient-lights { display:none!important; }
+#conteudo .combo-showcase-v2,#conteudo .cw-sec { background:var(--background)!important; }
+#conteudo .hero .story-phone { margin-bottom:12px; }
+.epica-section { animation:epica-reveal .8s ease both; }
+@keyframes epica-reveal { from { opacity:0; } to { opacity:1; } }
 .mobile-menu { background:var(--brand-glass)!important; }
 .mobile-menu .mobile-cta { background:var(--brand-red-deep)!important; }
 #conteudo .cc-sec { background:var(--brand-ink)!important; }
