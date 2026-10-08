@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { SERVICE_SLOTS, type MediaMap } from "./site-admin";
 import { CControlSection } from "./ccontrol-section";
-import { storageUrl, useSiteClients } from "@/lib/site-content";
+import { Instagram } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 function Placeholder({ label }: { label: string }) {
   return (
@@ -16,9 +17,6 @@ function Placeholder({ label }: { label: string }) {
 }
 
 export function SiteExtraSections({ media }: { media: MediaMap }) {
-  const { clients } = useSiteClients();
-  const track = clients.length ? [...clients, ...clients] : [];
-
   const services = SERVICE_SLOTS.map((s) => ({ slot: s, item: media[s] }));
   const [idx, setIdx] = useState(0);
   const timer = useRef<number | null>(null);
@@ -33,40 +31,27 @@ export function SiteExtraSections({ media }: { media: MediaMap }) {
   return (
     <>
       <CControlSection />
-      <section id="clientes-cakeweb" className="cw-sec">
-        <div className="cw-sec-inner">
-          <small className="cw-eyebrow">CLIENTES</small>
-          <h2>Clientes CakeWeb</h2>
-          <p className="cw-sub">
-            Operações que confiam na CakeWeb para estruturar e escalar o comercial.
-          </p>
-          <div className="cw-marquee" aria-label="Carrossel de clientes">
-            {track.length ? (
-              <div className="cw-marquee-track is-running">
-                {track.map((c, i) => (
-                  <div className="cw-client-card" key={`${c.id}-${i}`}>
-                    {c.logo_url ? (
-                      c.media_type === "video" ? (
-                        <video src={storageUrl(c.logo_url)} autoPlay muted loop playsInline />
-                      ) : (
-                        <img src={storageUrl(c.logo_url)} alt={c.name} loading="lazy" />
-                      )
-                    ) : (
-                      <Placeholder label={c.name} />
-                    )}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="cw-marquee-track">
-                {Array.from({ length: 5 }, (_, i) => (
-                  <div className="cw-client-card" key={i}>
-                    <Placeholder label={`Cliente ${i + 1}`} />
-                  </div>
-                ))}
-              </div>
-            )}
+      <section id="clientes-cakeweb" className="cw-ecosystem" aria-label="CakeWeb e Épica no Instagram">
+        <div className="cw-ecosystem-inner">
+          <div className="cw-ecosystem-partners">
+            <div className="cw-partner">
+              <span className="cw-partner-index">01 / CAKEWEB</span>
+              <h2>CakeWeb</h2>
+              <p>IA, estrutura comercial e processos empresariais.</p>
+              <Button asChild className="cw-instagram-link">
+                <a href="https://www.instagram.com/cakeweb/" target="_blank" rel="noopener noreferrer" aria-label="Instagram da CakeWeb"><Instagram aria-hidden="true" />Instagram da CakeWeb</a>
+              </Button>
+            </div>
+            <div className="cw-partner">
+              <span className="cw-partner-index">02 / ÉPICA</span>
+              <h2>Épica</h2>
+              <p>Estratégia, branding, comunicação, marketing e posicionamento.</p>
+              <Button asChild className="cw-instagram-link">
+                <a href="https://www.instagram.com/epicacreative/" target="_blank" rel="noopener noreferrer" aria-label="Instagram da Épica"><Instagram aria-hidden="true" />Instagram da Épica</a>
+              </Button>
+            </div>
           </div>
+          <p className="cw-ecosystem-led">Ecossistema completo para sua empresa crescer</p>
         </div>
       </section>
 
