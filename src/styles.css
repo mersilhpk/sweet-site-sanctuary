@@ -59,6 +59,20 @@
 @media(max-width:900px) { #conteudo header .logo-img img { width:120px!important;height:36px!important; } }
 
 /* Épica: full-bleed film followed by an unframed editorial band. */
+#conteudo .cw-ecosystem { background:var(--brand-ink);color:var(--brand-white);padding:64px 24px!important; }
+.cw-ecosystem-inner { max-width:1120px;margin:0 auto; }
+.cw-ecosystem-partners { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:64px; }
+.cw-partner { display:flex;flex-direction:column;align-items:flex-start; }
+.cw-partner-index { font-size:11px;color:var(--brand-red-light);margin-bottom:14px; }
+#conteudo .cw-partner h2 { color:var(--brand-white);font-size:34px;font-weight:600;margin:0 0 14px; }
+#conteudo .cw-partner p { font-size:17px;line-height:1.6;color:var(--brand-muted);max-width:420px;margin:0 0 24px; }
+.cw-instagram-link { margin-top:auto;height:auto;min-height:48px;padding:13px 22px;border-radius:6px;background:var(--brand-red-deep);border:1px solid var(--brand-red);color:var(--brand-white);white-space:normal;box-shadow:var(--brand-led);transition:transform .25s,background .25s; }
+.cw-instagram-link:hover { background:var(--brand-red);transform:translateY(-2px); }
+#conteudo .cw-instagram-link svg { color:var(--brand-white)!important;width:20px;height:20px; }
+#conteudo .cw-ecosystem-led { margin:48px 0 0;padding-top:32px;border-top:1px solid var(--brand-line);text-align:center;color:var(--brand-red-light);font-size:26px;font-weight:600;line-height:1.4;text-wrap:balance;animation:cwEcosystemLed 2.6s ease-in-out infinite; }
+@keyframes cwEcosystemLed { 0%,100% { opacity:1;text-shadow:0 0 8px var(--brand-red),0 0 24px var(--brand-red-deep); } 50% { opacity:.65;text-shadow:none; } }
+@media(max-width:700px) { #conteudo .cw-ecosystem { padding:44px 22px!important; }.cw-ecosystem-partners { grid-template-columns:1fr;gap:36px; }#conteudo .cw-partner h2 { font-size:28px; }#conteudo .cw-partner p { font-size:16px; }#conteudo .cw-ecosystem-led { font-size:22px;margin-top:36px; } }
+@media(prefers-reduced-motion:reduce) { #conteudo .cw-ecosystem-led { animation:none; }.cw-instagram-link { transition:none; }.cw-instagram-link:hover { transform:none; } }
 #conteudo .epica-section { padding:0!important;background:var(--brand-ink);color:var(--brand-white);overflow:hidden; }
 .epica-film { position:relative;aspect-ratio:1248/720;width:100%;background:var(--brand-ink); }
 .epica-film video { display:block;width:100%;height:100%;object-fit:contain; }
