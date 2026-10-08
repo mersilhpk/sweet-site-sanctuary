@@ -77,7 +77,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { name: "theme-color", content: "#0d0a16" },
+      { name: "theme-color", content: "#08090b" },
       { name: "author", content: "CakeWeb" },
       { property: "og:site_name", content: "CakeWeb" },
       { property: "og:type", content: "website" },
@@ -89,15 +89,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "A CakeWeb projeta e opera o motor comercial de empresas de médio e grande porte — CRM, IA aplicada a SDR e capacitação de equipe em um único sistema de receita." },
       { property: "og:description", content: "A CakeWeb projeta e opera o motor comercial de empresas de médio e grande porte — CRM, IA aplicada a SDR e capacitação de equipe em um único sistema de receita." },
       { name: "twitter:description", content: "A CakeWeb projeta e opera o motor comercial de empresas de médio e grande porte — CRM, IA aplicada a SDR e capacitação de equipe em um único sistema de receita." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b5e20115-f7a5-4f42-be57-9bc6fec23554" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b5e20115-f7a5-4f42-be57-9bc6fec23554" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.png", type: "image/png" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700&display=swap" },
     ],
   }),
   shellComponent: RootShell,
