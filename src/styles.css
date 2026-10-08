@@ -4,6 +4,105 @@
 
 @custom-variant dark (&:is(.dark *));
 
+:root {
+  --brand-red: oklch(0.62 0.25 25);
+  --brand-red-deep: oklch(0.49 0.20 25);
+  --brand-red-light: oklch(0.78 0.13 25);
+  --brand-ink: oklch(0.14 0.005 260);
+  --brand-surface: oklch(0.19 0.006 260);
+  --brand-white: oklch(0.985 0 0);
+  --brand-muted: oklch(0.76 0.005 260);
+  --brand-line: oklch(0.36 0.01 260);
+  --brand-glass: oklch(0.14 0.005 260 / 65%);
+  --brand-led: 0 0 12px color-mix(in oklab, var(--brand-red) 40%, transparent), 0 0 32px color-mix(in oklab, var(--brand-red) 25%, transparent);
+  --brand-film-overlay: linear-gradient(0deg, oklch(0.1 0 0 / 85%), transparent);
+}
+
+/* Existing layout, new CakeWeb identity. */
+#conteudo { --p: var(--brand-red); --pb: var(--brand-red); --pd: var(--brand-red-deep); --pk: var(--brand-red-light); }
+#conteudo .hero { background:var(--brand-ink)!important; color:var(--brand-white); }
+#conteudo .hero::before { display:none!important; }
+#conteudo .hero::after { inset:0!important;width:auto!important;height:auto!important;border-radius:0!important;filter:none!important;animation:none!important;background:var(--brand-film-overlay)!important; }
+#conteudo .hero-tech-background { opacity:.28!important;filter:grayscale(1)!important; }
+#conteudo .hero h1 { color:var(--brand-white)!important;letter-spacing:0!important; }
+#conteudo .hero h1 em { color:var(--brand-red-light)!important; }
+#conteudo .hero-sub,#conteudo .hero .btn-ghost { color:var(--brand-muted)!important; }
+#conteudo .hero .eyebrow { color:var(--brand-red-light); }
+#conteudo .hero-meta>div { background:var(--brand-surface)!important;border-color:var(--brand-line)!important; }
+#conteudo .hero-meta .lbl { color:var(--brand-muted)!important; }
+#conteudo header .nav { background:var(--brand-glass)!important;border-color:var(--brand-line)!important;box-shadow:none!important; }
+#conteudo header .nav:hover,#conteudo header .nav:focus-within { background:var(--brand-ink)!important; }
+#conteudo header .nav a,#conteudo header .nav .logo { color:var(--brand-white)!important;text-shadow:none!important; }
+#conteudo header .nav a:hover { color:var(--brand-red-light)!important; }
+#conteudo header .nav .nav-cta,#conteudo .btn-primary,#conteudo .cw-project-cta { background:var(--brand-red-deep)!important;color:var(--brand-white)!important;border-color:var(--brand-red)!important;box-shadow:var(--brand-led)!important; }
+#conteudo header .nav .nav-cta:hover,#conteudo .btn-primary:hover { background:var(--brand-red)!important;color:var(--brand-white)!important; }
+#conteudo .logo-img { display:inline-flex!important;align-items:center; }
+#conteudo header .logo-img img { width:145px!important;height:44px!important;object-fit:contain; }
+#conteudo footer { background:var(--brand-ink)!important;color:var(--brand-white); }
+#conteudo footer .logo-img img { width:145px;height:44px!important;object-fit:contain; }
+#conteudo footer p,#conteudo footer a,#conteudo footer .fcol-head,#conteudo footer .footer-bottom { color:var(--brand-muted)!important; }
+#conteudo .sh p,#conteudo .card p,#conteudo .plan-card li,#conteudo .guar-item p { color:var(--td)!important; }
+#conteudo #solucoes .layer-card.active p { color:var(--brand-white)!important; }
+#conteudo .combo-showcase-v2::before,#conteudo .ambient-lights { display:none!important; }
+.mobile-menu { background:var(--brand-glass)!important; }
+.mobile-menu .mobile-cta { background:var(--brand-red-deep)!important; }
+#conteudo .cc-sec { background:var(--brand-ink)!important; }
+#conteudo .cc-sec::before { display:none!important; }
+#conteudo .cc-sec h2 { color:var(--brand-white); }
+#conteudo .cc-sec p,#conteudo .cc-list li { color:var(--brand-muted); }
+#conteudo .cc-cta { background:var(--brand-red-deep)!important; }
+#conteudo h2,#conteudo h3,#conteudo p { letter-spacing:0!important; }
+@media(max-width:900px) { #conteudo header .logo-img img { width:120px!important;height:36px!important; } }
+
+/* Épica: full-bleed film followed by an unframed editorial band. */
+#conteudo .epica-section { padding:0!important;background:var(--brand-ink);color:var(--brand-white);overflow:hidden; }
+.epica-film { position:relative;aspect-ratio:1248/720;width:100%;background:var(--brand-ink); }
+.epica-film video { display:block;width:100%;height:100%;object-fit:contain; }
+.epica-film::after { content:"";position:absolute;inset:65% 0 0;background:var(--brand-film-overlay);pointer-events:none; }
+.epica-film-caption { position:absolute;bottom:28px;left:32px;right:140px;z-index:1;display:flex;justify-content:space-between;gap:20px;font-size:11px;font-weight:600; }
+.epica-video-controls { position:absolute;right:28px;bottom:22px;z-index:2;display:flex;gap:8px; }
+.epica-video-controls button { width:44px;height:44px;border:1px solid var(--brand-line);border-radius:50%;background:var(--brand-glass);color:var(--brand-white);transition:box-shadow .3s,border-color .3s; }
+.epica-video-controls button:hover { border-color:var(--brand-red);box-shadow:var(--brand-led); }
+#conteudo .epica-video-controls svg { color:var(--brand-white)!important; }
+.epica-video-error { position:absolute;top:20px;left:20px;background:var(--brand-ink);padding:12px; }
+.epica-content { max-width:1160px;margin:auto;padding:80px 24px 32px;display:grid;grid-template-columns:1fr 1fr;gap:64px;position:relative; }
+.epica-content::before { content:"";position:absolute;left:24px;top:0;width:120px;height:2px;background:var(--brand-red);box-shadow:var(--brand-led); }
+.epica-kicker,.epica-index { display:flex;align-items:center;gap:14px;font-size:11px;font-weight:500;color:var(--brand-muted); }
+.epica-kicker::before { content:"";width:44px;height:2px;background:var(--brand-red); }
+#conteudo .epica-heading h2 { margin:24px 0;font-size:80px;line-height:.95;font-weight:800;color:var(--brand-white); }
+.epica-heading h2 span { display:block;margin-top:6px;font-size:54px;font-weight:400; }
+#conteudo .epica-tagline { color:var(--brand-muted);font-size:21px;line-height:1.5;max-width:420px; }
+.epica-index { color:var(--brand-red-light);margin-bottom:24px; }
+#conteudo .epica-copy p { font-size:16px;line-height:1.8;color:var(--brand-muted);margin:0 0 20px; }
+.epica-copy strong { font-weight:500;color:var(--brand-white); }
+.epica-location { margin-top:10px;min-height:48px;height:auto;padding:14px 22px;border-radius:6px;background:var(--brand-red-deep);border:1px solid var(--brand-red);color:var(--brand-white);box-shadow:var(--brand-led);white-space:normal;transition:transform .3s,box-shadow .3s; }
+.epica-location:hover { background:var(--brand-red);transform:translateY(-3px);box-shadow:var(--brand-led); }
+#conteudo .epica-location svg { color:var(--brand-white)!important; }
+.epica-copy address { color:var(--brand-muted);font-size:12px;font-style:normal;line-height:1.7;margin-top:18px; }
+.epica-disciplines { grid-column:1/-1;list-style:none;margin-top:8px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid var(--brand-line);border-bottom:1px solid var(--brand-line); }
+.epica-disciplines li { position:relative;padding:28px 12px;display:flex;align-items:center;gap:12px;font-size:12px;transition:background .3s,box-shadow .3s; }
+.epica-disciplines li:hover { background:var(--brand-surface);box-shadow:inset 0 -2px var(--brand-red),var(--brand-led); }
+.epica-discipline-number { color:var(--brand-muted);font-size:9px; }
+.epica-plus { margin-left:auto;color:var(--brand-red);font-size:20px; }
+@media(max-width:760px) {
+  .epica-content { padding:44px 22px 24px;grid-template-columns:1fr;gap:32px; }
+  #conteudo .epica-heading h2 { font-size:60px;margin:20px 0; }
+  .epica-heading h2 span { font-size:40px; }
+  #conteudo .epica-tagline { font-size:18px; }
+  #conteudo .epica-copy p { font-size:15px; }
+  .epica-disciplines { grid-template-columns:1fr; }
+  .epica-disciplines li { padding:18px 0;border-bottom:1px solid var(--brand-line); }
+  .epica-disciplines li:last-child { border:0; }
+  .epica-film-caption { left:14px;bottom:14px;font-size:9px; }
+  .epica-film-caption span:last-child { display:none; }
+  .epica-video-controls { right:12px;bottom:8px; }
+  .epica-video-controls button { width:38px;height:38px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .epica-location,.epica-disciplines li { transition:none; }
+  .epica-location:hover { transform:none; }
+}
+
 /*
  * Design system definition.
  *
